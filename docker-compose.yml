@@ -1,6 +1,7 @@
 services:
   store_manager:
     build: .
+    restart: unless-stopped
     volumes:
       - .:/app
     expose:
