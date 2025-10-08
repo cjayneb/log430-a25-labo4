@@ -53,15 +53,21 @@ Au lieu de faire la solution proposé dans l'énoncé, j'ai stocké les rapports
 
 > À partir de combien d'utilisateurs votre application cesse-t-elle de répondre correctement (avec Redis + Optimisation + Nginx load balancing) ? Quelle est la latence moyenne (50ème percentile) et le taux d'erreur observés ? Illustrez votre réponse à l'aide des graphiques Locust.
 
+De façon surprenante, à partir de 67 utilisateurs, les erreurs 500 ont commencé à être retournées. Toutes les erreurs étaient des erreurs _Too many connections_ de la base de données MySQL. La latence moyenne est restée autour de 20 ms jusqu'à ce qu'on atteigne 130 utilisateurs et le taux d'erreur a ondulé durant le test en atteignant un maximum de 18 erreur par seconde sur 55 requêtes totales.
+
+![alt text](image-4.png)
+
 ### Question 6
 
 > Avez-vous constaté une amélioration des performances à mesure que nous avons mis en œuvre différentes approches d'optimisation ? Quelle a été la meilleure approche ? Justifiez votre réponse en vous référant aux réponses précédentes.
 
-Il semblerait que, dans notre cas d'étude contenant peut d'articles différents, la mise en cache des rapports et l'équilibrage de charge automatique sont les optimisations qui ont beaucoup aidé à garder la latence et le nombre de requêtes en erreur stables.
+Il semblerait que, dans notre cas d'étude contenant peut d'articles différents, la mise en cache des rapports est l'optimisations qui a beaucoup aidé à garder la latence et le nombre de requêtes en erreur stables. L'optimisation que nous avons fait des requêtes SQL n'est pas très utile dans notre contexte, comme expliqué dans la réponse à la question 3. Je m'attendais à ce que le load balancing amène une grande amélioration du côté du taux d'erreur, mais celui-ci semblait empirer le taux d'erreur de la base de données dû au nombre de connexion simultané. Cependant le load balancing a aidé pour garder une latence assez basse pour un grand nombre d'utilisateurs.
 
 ### Question 7
 
 > Dans le fichier nginx.conf, il existe un attribut qui configure l'équilibrage de charge. Quelle politique d'équilibrage de charge utilisons-nous actuellement ? Consultez la documentation officielle Nginx si vous avez des questions.
+
+La politique d'équilibrage de la charge _least_conn_ est utilisée. Cela veut dire que l'instance de store_manager avec le moins de connexions actives recevra la requête entrante.
 
 ## Observations additionnelles
 
@@ -76,3 +82,4 @@ Il semblerait que, dans notre cas d'étude contenant peut d'articles différents
 - Observations sur d’éventuels problèmes de setup ou de code rencontrés lors de l’exécution des activités (optionel).
 - Problème avec le groupe de l'utilisateur sur la VM pour docker
 - Installation de docker _from scratch_
+- Compréhension de pourquoi le load balancing amène plus d'erreur 500 plus tôt
