@@ -50,3 +50,5 @@ Montréal, 10 octobre 2025 \
 ### Problème(s) rencontré(s)
 
 - Observations sur d’éventuels problèmes de setup ou de code rencontrés lors de l’exécution des activités (optionel).
+- Problème avec le groupe de l'utilisateur sur la VM pour docker
+- Installation de docker _from scratch_

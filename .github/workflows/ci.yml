@@ -86,12 +86,6 @@ jobs:
     needs: test
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
     steps:
-      - name: Show current user info
-        run: |
-          echo "Running as user: $(whoami)"
-          id
-          ls -l /var/run/docker.sock
-
       - name: Fix permissions before checkout
         run: |
           sudo rm -rf "$GITHUB_WORKSPACE"/*
