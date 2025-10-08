@@ -80,8 +80,14 @@ def get_highest_spending_users_redis():
     result = []
     try: 
         start_time = time.time()
-        # TODO: optimiser
         r = get_redis_conn()
+
+        report_in_cache = r.get("reports:highest_spending_users")
+        if report_in_cache:
+            end_time = time.time()
+            logger.debug(f"Executed in {end_time - start_time} seconds")
+            return json.loads(report_in_cache)
+
         limit = 10
         order_keys = r.keys("order:*")
         spending = defaultdict(float)
@@ -106,6 +112,8 @@ def get_highest_spending_users_redis():
 
     end_time = time.time()
     logger.debug(f"Executed in {end_time - start_time} seconds")
+    r.set('reports:highest_spending_users', json.dumps(result))
+    r.expire("reports:highest_spending_users", 60)
     return result
 
 def get_best_selling_products_redis():
@@ -113,8 +121,14 @@ def get_best_selling_products_redis():
     result = []
     try:
         start_time = time.time()
-        # TODO: optimiser
         r = get_redis_conn()
+
+        report_in_cache = r.get("reports:best_selling_products")
+        if report_in_cache:
+            end_time = time.time()
+            logger.debug(f"Executed in {end_time - start_time} seconds")
+            return json.loads(report_in_cache)
+
         limit = 10
         order_keys = r.keys("order:*")
         product_sales = defaultdict(int)
@@ -145,12 +159,14 @@ def get_best_selling_products_redis():
     
     end_time = time.time()
     logger.debug(f"Executed in {end_time - start_time} seconds")
+    r.set('reports:best_selling_products', json.dumps(result))
+    r.expire("reports:best_selling_products", 60)
     return result
 
 def get_highest_spending_users():
     """Get report of highest spending users"""
-    return get_highest_spending_users_mysql()
+    return get_highest_spending_users_redis()
 
 def get_best_selling_products():
     """Get report of best selling products"""
-    return get_best_selling_products_mysql()
+    return get_best_selling_products_redis()

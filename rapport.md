@@ -33,9 +33,21 @@ On observe que la latence moyenne a atteint un maximum de 97 ms et qu'aucune err
 
 > À partir de combien d'utilisateurs votre application cesse-t-elle de répondre correctement (avec MySQL + optimisation) ? Illustrez votre réponse à l'aide des graphiques Locust.
 
+Nous voyons une dégradation considérable du service à partir de 87 utilisateurs simultanés, car l'application commence à retourner les mêmes erreurs 500 qu'à l'étape d'avant.
+
+![alt text](image-2.png)
+
+On ne devrait pas s'attendre à voir une grande différence avec notre optimisation, car l'optimisation a réellement un effet drastique lorsque les commandes contiennent des milliers d'artivcles différents, tandis que dans notre cas, nous avons 4 articles différents maximum.
+
 ### Question 4
 
 > À partir de combien d'utilisateurs votre application cesse-t-elle de répondre correctement (avec Redis + optimisation) ? Quelle est la latence et le taux d'erreur observés ? Illustrez votre réponse à l'aide des graphiques Locust.
+
+L'application commence à retourner les mêmes erreurs 500 autour de 97 utilisateurs simultanés. C'est à ce moment que la qualité de service ne serait plus acceptable pour une application de production. On peut observer qu'après une minute, il y a une montée du temps de réponse, car les rapports doivent être recalculés :
+
+![alt text](image-3.png)
+
+Au lieu de faire la solution proposé dans l'énoncé, j'ai stocké les rapports en tant que string.
 
 ### Question 5
 
@@ -44,6 +56,8 @@ On observe que la latence moyenne a atteint un maximum de 97 ms et qu'aucune err
 ### Question 6
 
 > Avez-vous constaté une amélioration des performances à mesure que nous avons mis en œuvre différentes approches d'optimisation ? Quelle a été la meilleure approche ? Justifiez votre réponse en vous référant aux réponses précédentes.
+
+Il semblerait que, dans notre cas d'étude contenant peut d'articles différents, la mise en cache des rapports et l'équilibrage de charge automatique sont les optimisations qui ont beaucoup aidé à garder la latence et le nombre de requêtes en erreur stables.
 
 ### Question 7
 
