@@ -7,7 +7,15 @@ services:
     expose:
       - "5000"
     environment:
-      - PYTHONUNBUFFERED=1
+      PYTHONUNBUFFERED: 1
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: labo04
+      DB_PASS: labo04
+      DB_NAME: labo04_db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
     networks:
       - labo04-network
     depends_on:
