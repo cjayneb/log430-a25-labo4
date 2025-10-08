@@ -75,7 +75,7 @@ La politique d'équilibrage de la charge _least_conn_ est utilisée. Cela veut d
 
 - Utilisation d'une VM Ubuntu 24.04 créée sur Microsoft Azure Portal for Students
 - La VM héberge un self hosted runner pour exécuter le workflow de CI/CD et pour héberger les conteneurs déployés
-- L'adresse IP public de la VM est 20.120.181.0 et les routes de l'API sont accessibles directement sur cette adresse en HTTP
+- L'adresse IP public de la VM est 20.120.181.0 et les routes de l'API sont accessibles directement sur cette adresse sur le port 8080
 
 ### Problème(s) rencontré(s)
 

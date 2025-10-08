@@ -106,4 +106,4 @@ jobs:
 
       - name: Docker image prune
         if: always()
-        run: docker system prune -a --volumes -f
+        run: docker image prune -af
