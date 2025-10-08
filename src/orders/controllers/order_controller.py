@@ -17,6 +17,7 @@ def create_order(request):
         order_id = add_order(user_id, items)
         return jsonify({'order_id': order_id}), 201
     except Exception as e:
+        print(str(e))
         return jsonify({'error': str(e)}), 500
 
 def remove_order(order_id):

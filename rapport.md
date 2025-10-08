@@ -15,9 +15,19 @@ Montréal, 10 octobre 2025 \
 
 > Quelle est la latence moyenne (50ème percentile) et le taux d'erreur observés avec 100 utilisateurs ? Illustrez votre réponse à l'aide des graphiques Locust (onglet Charts).
 
+On observe que la latence moyenne a atteint un maximum de 97 ms et qu'aucune erreur est observée avec 100 utilisateur simultanés :
+![alt text](image.png)
+
 ### Question 2
 
 > À partir de combien d'utilisateurs votre application cesse-t-elle de répondre correctement (avec MySQL) ? Illustrez votre réponse à l'aide des graphiques Locust.
+
+À partir de 83 utilisateurs simultanés, l'application arrête de répondre correctement, car elle commence à retourner plusieurs erreurs 500 aux clients. les erreurs sont une des suivantes :
+
+- 500 - (mysql.connector.errors.DatabaseError) 1040 (HY000): Too many connections
+- 500 - (mysql.connector.errors.InternalError) 1213 (40001): Deadlock found when trying to get lock; try restarting transaction
+- Des erreur 500 génériques
+  ![alt text](image-1.png)
 
 ### Question 3
 
@@ -45,7 +55,7 @@ Montréal, 10 octobre 2025 \
 
 - Utilisation d'une VM Ubuntu 24.04 créée sur Microsoft Azure Portal for Students
 - La VM héberge un self hosted runner pour exécuter le workflow de CI/CD et pour héberger les conteneurs déployés
-- L'adresse IP public de la VM est 20.120.181.0
+- L'adresse IP public de la VM est 20.120.181.0 et les routes de l'API sont accessibles directement sur cette adresse en HTTP
 
 ### Problème(s) rencontré(s)
 
